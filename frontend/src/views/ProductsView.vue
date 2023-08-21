@@ -4,10 +4,13 @@
     </div>
   </template>
 
-<script>
-export default{
-    name: "Products.vue"
-}
+<script setup>
+import { onUnmounted} from 'vue'
+
+onUnmounted( () => {
+console.log('chegou aqui')
+})
+
 </script>
   
 <style scoped>
