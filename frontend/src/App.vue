@@ -1,26 +1,15 @@
 <template>
   <div>
     <header>
-      <img
-        alt="Vue logo"
-        class="logo"
-        src="@/assets/logo.svg"
-        width="125"
-        height="125"
-      />
+      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
       <div class="wrapper">
-        <HelloWorld msg="You did it!" />
 
-          {{count}}
 
-          {{UserNAme}}
-
+          <h2>users list</h2>
           <ul>
-            <li v-for="user in users" :key="user.id">{{user.FistName}} - {{user.age}}</li>
+               <li v-for="user in users" :key="user.id">{{ user.firstName }}</li>
           </ul>
-
-        <button v-on:click="count++">Add</button>
 
         <nav>
           <RouterLink to="/">Home</RouterLink>
@@ -42,30 +31,32 @@ import { onMounted, onUpdated, reactive, ref } from "vue";
 import { RouterLink, RouterView } from "vue-router";
 import HelloWorld from "@/components/HelloWorld.vue";
 import Footer from "@/components/Footer.vue";
+import http from '@/services/http.js';
+
+const users = reactive([]);
+
+const fetchData = async () => {
+  try {
+    const { data } = await http.get('api/users');
+    users.length = 0; // Limpar o array reativo
+    users.push(...data); // Atualizar o array com os dados obtidos
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Gancho onMounted para carregar os dados quando o componente é montado
+onMounted(fetchData);
 
 
-const count = ref(0);
 
-const UserNAme = ref("Caique");
+// onMounted(() => {
+//   console.log('Monunted');
+// })
 
-const users = reactive([
-  {
-    FistName:'caique',
-    age:29
-  },
-{
-  FistName: 'Paula',
-  age: 24
-}
-])
-
-onMounted( () => {
-  console.log('Monunted');
-})
-
-onUpdated( () =>{
-    console.log('onUpdated');
-})
+// onUpdated(() => {
+//   console.log('onUpdated');
+// })
 
 
 </script>
