@@ -1,14 +1,20 @@
 <template>
   <div>
-    <header>
+    
       <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
       <div class="wrapper">
-
-
+        
+          <Header v-if="showHeader"></Header>
+       
           <h2>users list</h2>
+          
           <ul>
-               <li v-for="user in users" :key="user.id">{{ user.firstName }}</li>
+            <li v-for="user in users" :key="user.id">
+             {{ user.firstName }} 
+             <button style="background-color: rgb(255, 42, 14);" v-if="user.is_admin">  admin</button>
+             <button style="background-color: aquamarine;" v-else="user.is_admin"> not admin</button>
+            </li>
           </ul>
 
         <nav>
@@ -17,7 +23,6 @@
           <RouterLink to="/about">About</RouterLink>
         </nav>
       </div>
-    </header>
 
     <Footer></Footer>
 
@@ -32,12 +37,16 @@ import { RouterLink, RouterView } from "vue-router";
 import HelloWorld from "@/components/HelloWorld.vue";
 import Footer from "@/components/Footer.vue";
 import http from '@/services/http.js';
+import Header from '@/components/Header.vue';
+
 
 const users = reactive([] );
 
+let showHeader = false;
+
 const fetchData = async () => {
   try {
-    const { data } = await http.get(' api/users');
+    const { data } = await http.get('/api/users');
     users.length = 0; // Limpar o array reativo
     users.push(...data); // Atualizar o array com os dados obtidos
   } catch (error) {
@@ -45,20 +54,7 @@ const fetchData = async () => {
   }
 };
 
-// Gancho onMounted para carregar os dados quando o componente é montado
 onMounted(fetchData);
-
-
-
-// onMounted(() => {
-//   console.log('Monunted');
-// })
-
-// onUpdated(() => {
-//   console.log('onUpdated');
-// })
-
-
 </script>
 
 
