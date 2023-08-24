@@ -1,8 +1,6 @@
 <template>
   <div>
     
-      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
       <div class="wrapper">
         
           <Header v-if="showHeader"></Header>
@@ -12,10 +10,12 @@
           <ul>
             <li v-for="user in users" :key="user.id">
              {{ user.firstName }} 
-             <button style="background-color: rgb(255, 42, 14);" v-if="user.is_admin">  admin</button>
+             <button style="background-color: rgb(255, 42, 14);" v-if="user.is_admin"> admin</button>
              <button style="background-color: aquamarine;" v-else="user.is_admin"> not admin</button>
             </li>
           </ul>
+
+          <img v-bind:src="imageScr" class="my-default-class" v-bind:class="{'my-class':is_admin, 'my-other-class':!is_admin}">
 
         <nav>
           <RouterLink to="/">Home</RouterLink>
@@ -44,6 +44,10 @@ const users = reactive([] );
 
 let showHeader = false;
 
+let imageScr = ref('https://picsum.photos/200/300');
+
+const is_admin = ref(true);
+
 const fetchData = async () => {
   try {
     const { data } = await http.get('/api/users');
@@ -59,6 +63,14 @@ onMounted(fetchData);
 
 
 <style scoped>
+
+.my-class{
+  border: solid 10px rgb(247, 2, 108);
+}
+.my-other-class{
+  border: solid 10px rgb(0, 255, 38);
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;
