@@ -33,11 +33,11 @@ import HelloWorld from "@/components/HelloWorld.vue";
 import Footer from "@/components/Footer.vue";
 import http from '@/services/http.js';
 
-const users = reactive([]);
+const users = reactive([] );
 
 const fetchData = async () => {
   try {
-    const { data } = await http.get('api/users');
+    const { data } = await http.get(' api/users');
     users.length = 0; // Limpar o array reativo
     users.push(...data); // Atualizar o array com os dados obtidos
   } catch (error) {
