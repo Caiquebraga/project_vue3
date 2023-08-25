@@ -3,7 +3,7 @@
     
       <div class="wrapper">
         
-          <Header v-if="showHeader"></Header>
+          <Header v-if="showHeader">Olá</Header>
        
           <h2>users list</h2>
           
@@ -16,7 +16,8 @@
           </ul>
 
           <img v-bind:src="imageScr" class="my-default-class" v-bind:class="{'my-class':is_admin, 'my-other-class':!is_admin}">
-
+           
+          <button @click="add">{{acount}}</button> 
         <nav>
           <RouterLink to="/">Home</RouterLink>
           <RouterLink to="/products">products</RouterLink>
@@ -33,11 +34,12 @@
 <script setup>
 import { onMounted, onUpdated, reactive, ref } from "vue";
 
+
 import { RouterLink, RouterView } from "vue-router";
 import HelloWorld from "@/components/HelloWorld.vue";
 import Footer from "@/components/Footer.vue";
-import http from '@/services/http.js';
-import Header from '@/components/Header.vue';
+import Header from "@/components/Header.vue";
+import http from '@/services/http';
 
 
 const users = reactive([] );
@@ -47,6 +49,13 @@ let showHeader = false;
 let imageScr = ref('https://picsum.photos/200/300');
 
 const is_admin = ref(true);
+
+let acount = ref(0);
+
+function add() {
+  acount.value++;
+  console.log('chegou')
+}
 
 const fetchData = async () => {
   try {
@@ -59,6 +68,7 @@ const fetchData = async () => {
 };
 
 onMounted(fetchData);
+
 </script>
 
 
